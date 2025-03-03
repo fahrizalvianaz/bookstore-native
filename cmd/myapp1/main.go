@@ -33,8 +33,9 @@ func main() {
 	handler := handler.NewBookHandler(service)
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("POST /books", handler.CreateBook)
-	mux.HandleFunc("GET /books/{id}", handler.GetBook)
+	mux.HandleFunc("POST /book", handler.CreateBook)
+	mux.HandleFunc("GET /book/{id}", handler.GetBook)
+	mux.HandleFunc("GET /books", handler.GetAllBooks)
 
 	log.Println("Server running on :8080")
 	log.Fatal(http.ListenAndServe(":8080", mux))

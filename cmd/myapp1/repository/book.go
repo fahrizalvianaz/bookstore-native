@@ -30,3 +30,28 @@ func (r *BookRepository) GetByID(ctx context.Context, id int) (*model.Book, erro
 
 	return &book, err
 }
+
+func (r *BookRepository) GetAllBooks(ctx context.Context) ([]model.Book, error) {
+	rows, err := r.db.QueryContext(ctx, "SELECT id, title, author FROM books")
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var books []model.Book
+	for rows.Next() {
+		var book model.Book
+		if err := rows.Scan(&book.ID, &book.Title, &book.Author); err != nil {
+			return nil, err
+		}
+		books = append(books, book)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return books, nil
+}

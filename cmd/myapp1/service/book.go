@@ -21,3 +21,7 @@ func (s *BookService) CreateBook(ctx context.Context, book *model.Book) error {
 func (s *BookService) GetBook(ctx context.Context, id int) (*model.Book, error) {
 	return s.repo.GetByID(ctx, id)
 }
+
+func (s *BookService) GetAllBooks(ctx context.Context) ([]model.Book, error) {
+	return s.repo.GetAllBooks(ctx)
+}
