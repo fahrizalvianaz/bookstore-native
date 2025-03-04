@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"simple-project-native/cmd/myapp1/model"
+	"simple-project-native/cmd/myapp1/model/dto"
 )
 
 type UserRepository struct {
@@ -14,20 +14,20 @@ func NewUserRepository(db *sql.DB) *UserRepository {
 	return &UserRepository{db: db}
 }
 
-func (u *UserRepository) Register(ctx context.Context, user *model.User) error {
+func (u *UserRepository) Register(ctx context.Context, user *dto.RegisterRequest) error {
 	_, err := u.db.ExecContext(ctx,
-		"INSERT INTO user (username, password) VALUES ($1, $2)",
-		user.Username, user.Password,
+		"INSERT INTO customer (nama, email, username, password) VALUES ($1, $2, $3, $4)",
+		user.Nama, user.Email, user.Username, user.Password,
 	)
 	return err
 }
 
-func (u *UserRepository) Login(ctx context.Context, user *model.User) error {
-
+func (u *UserRepository) Login(ctx context.Context, user *dto.LoginRequest) (string, error) {
+	var passwordUser *string
 	err := u.db.QueryRowContext(ctx,
-		"SELECT id_user, username,password FROM user WHERE username = $1",
+		"SELECT username, password FROM customer WHERE username = $1",
 		user.Username,
-	).Scan(&user.ID, &user.Username, user.Password)
+	).Scan(&user.Username, &passwordUser)
 
-	return err
+	return *passwordUser, err
 }

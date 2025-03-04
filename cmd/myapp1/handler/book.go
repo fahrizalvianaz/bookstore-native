@@ -22,7 +22,6 @@ func (h *BookHandler) CreateBook(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid request payload", http.StatusBadRequest)
 		return
 	}
-
 	if err := h.service.CreateBook(r.Context(), &book); err != nil {
 		http.Error(w, "Error creating book", http.StatusInternalServerError)
 		return

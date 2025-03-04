@@ -1,9 +1,8 @@
-package model
+package dto
 
-type User struct {
-	ID       int    `json:"id_user"`
+type RegisterRequest struct {
 	Nama     string `json:"nama"`
-	Email    string `json:"email"`
 	Username string `json:"username"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
 }

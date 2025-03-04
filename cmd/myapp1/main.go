@@ -28,14 +28,21 @@ func main() {
 		log.Fatal("Failed to create table", err)
 	}
 
-	repo := repository.NewBookRepository(db)
-	service := service.NewBookService(repo)
-	handler := handler.NewBookHandler(service)
+	repoBook := repository.NewBookRepository(db)
+	serviceBook := service.NewBookService(repoBook)
+	handlerBook := handler.NewBookHandler(serviceBook)
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("POST /book", handler.CreateBook)
-	mux.HandleFunc("GET /book/{id}", handler.GetBook)
-	mux.HandleFunc("GET /books", handler.GetAllBooks)
+	mux.HandleFunc("POST /book", handlerBook.CreateBook)
+	mux.HandleFunc("GET /book/{id}", handlerBook.GetBook)
+	mux.HandleFunc("GET /books", handlerBook.GetAllBooks)
+
+	repoUser := repository.NewUserRepository(db)
+	serviceUser := service.NewUserService(repoUser)
+	handlerUser := handler.NewUserHandler(serviceUser)
+
+	mux.HandleFunc("POST /register", handlerUser.Register)
+	mux.HandleFunc("POST /login", handlerUser.Login)
 
 	log.Println("Server running on :8080")
 	log.Fatal(http.ListenAndServe(":8080", mux))
