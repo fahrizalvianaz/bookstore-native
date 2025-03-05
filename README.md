@@ -1,6 +1,6 @@
 # Simple Go Web API
 
-A lightweight web API built with native Go packages implementing a clean architecture pattern with repository, service, and handler layers.
+A lightweight web API built with native Go packages implementing a Go standart project pattern with repository, service, and handler layers.
 
 ## Features
 
@@ -80,7 +80,7 @@ simple-project-native/
 
 ## Architecture
 
-This project follows clean architecture principles:
+This project follows Go standart project pattern:
 
 1. **Handler Layer**: Manages HTTP requests and responses
 2. **Service Layer**: Contains business logic
